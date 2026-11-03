@@ -1,0 +1,68 @@
+{
+  "name": "nghich-thien-tu-luyen-studio",
+  "version": "2.2.1",
+  "private": true,
+  "description": "Nghịch Thiên Tu Luyện V2.2.1: 10 tính năng mới, giữ 1 tim = 1 damage, xoay vòng 9 boss vô hạn.",
+  "main": "main.js",
+  "scripts": {
+    "start": "electron .",
+    "test": "node --test tests/*.test.cjs",
+    "check:build": "node scripts/check-package.cjs",
+    "dist:win": "electron-builder --win nsis --x64"
+  },
+  "dependencies": {
+    "tiktok-live-connector": "^2.5.0"
+  },
+  "devDependencies": {
+    "electron": "^38.0.0",
+    "electron-builder": "26.18.0"
+  },
+  "build": {
+    "appId": "vn.nghichthien.tuluyen.studio",
+    "productName": "Nghich Thien Tu Luyen",
+    "directories": {
+      "output": "release",
+      "buildResources": "build"
+    },
+    "asar": true,
+    "files": [
+      "main.js",
+      "audio-service.cjs",
+      "preload.js",
+      "persistent-store.cjs",
+      "tiktok-service.cjs",
+      "game-core.js",
+      "renderer.js",
+      "style.css",
+      "index.html",
+      "live-output.html",
+      "live-output.css",
+      "live-output-preload.js",
+      "live-output-receiver.js",
+      "live-output-stream.js",
+      "live-output-source.js",
+      "assets/**/*",
+      "build/icon.ico",
+      "package.json"
+    ],
+    "win": {
+      "target": [
+        {
+          "target": "nsis",
+          "arch": [
+            "x64"
+          ]
+        }
+      ],
+      "icon": "build/icon.ico",
+      "artifactName": "NghichThienTuLuyen-Setup-${version}-x64.${ext}"
+    },
+    "nsis": {
+      "oneClick": false,
+      "allowToChangeInstallationDirectory": true,
+      "createDesktopShortcut": true,
+      "createStartMenuShortcut": true,
+      "shortcutName": "Nghich Thien Tu Luyen"
+    }
+  }
+}

@@ -1,0 +1,88 @@
+<!doctype html><html lang="vi"><head><meta charset="utf-8"/><meta name="viewport" content="width=device-width,initial-scale=1"/>
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self';style-src 'self';img-src 'self' data:; media-src 'self' blob: data: file:;connect-src 'none';object-src 'none';base-uri 'none'"/>
+<title>Nghịch Thiên Tu Luyện — Studio V2.2.1</title><link rel="stylesheet" href="style.css"/></head>
+<body><div class="app"><aside class="sidebar"><div class="brand"><div class="crest">☯</div><div><b>NGHỊCH THIÊN</b><span>TU LUYỆN · V2.2.1</span></div></div>
+<div class="navitem selected">⚔ &nbsp; Chiến trường Tu Tiên</div><div class="navitem">☯ &nbsp; Tiên Đạo / Ma Đạo</div><div class="navitem">✦ &nbsp; Đột phá cảnh giới</div><div class="navitem">⌑ &nbsp; Nhiệm vụ hằng ngày</div><div class="navitem">📡 &nbsp; TikTok LIVE</div><div class="navitem">🎙 &nbsp; Giọng đọc</div><div class="navitem">♫ &nbsp; Nhạc nền</div>
+<div class="sidebottom">KHÔNG GIAO DỊCH QUÀ TẶNG<br/><small>Bình luận · Tim · Follow · Share<br/>Ứng dụng độc lập với Chánh Điện An Lạc</small></div></aside>
+<main class="main"><header class="top"><div><span class="overline">TÔNG MÔN SONG TRANH · 9 ĐẠI MA BOSS</span><h1>Nghịch Thiên Tu Luyện <em>V2.2.1</em></h1><p>Bố cục LIVE không che tu sĩ · hình ảnh tiên hiệp · giữ nguyên mọi chức năng</p></div><div id="liveBadge" class="badge">● CHẾ ĐỘ DEMO</div></header>
+<section class="stats"><div><span>Tu sĩ đang ngồi</span><strong id="statActive">0</strong><small>60 chỗ · ngồi không giới hạn thời gian</small></div><div><span>Tiên Đạo</span><strong id="statTien">0</strong><small>Thanh Vân Cảnh</small></div><div><span>Ma Đạo</span><strong id="statMa">0</strong><small>Tử Viêm Cảnh</small></div><div><span>Tổng lượt thích</span><strong id="statLikes">0</strong><small>Bình luận / tim / follow / share</small></div></section>
+<div class="workspace"><section class="stage"><div class="stagehead"><div><b>Chiến trường Tiên Ma - phong cách tiên hiệp</b><span id="battleSummary">Đang chuẩn bị...</span></div><div class="chip">720 × 1280</div></div>
+<div class="canvas-holder"><canvas id="templeCanvas" width="720" height="1280" aria-label="Nghịch Thiên Tu Luyện, hai phe và boss" ></canvas></div><div class="stagefoot"><span>Chế độ chiến đấu · <strong id="timerSummary">05:00</strong></span><span>Nền Bồng Lai do bạn cung cấp · LIVE dọc 9:16</span></div></section>
+<div class="controls">
+<article class="panel"><h2>⚔ Luật chơi V2</h2><div class="rule-grid"><div><b>+2</b> Bình luận bất kỳ: chỉ tăng Tu Vi, không đánh boss</div><div><b>+0,1</b> Mỗi tim: +0,1 Tu Vi và 1 sát thương boss</div><div><b>+30</b> Follow kênh (một lần)</div><div><b>+20</b> Chia sẻ LIVE</div><div><b>+50</b> Top sát thương boss</div><div><b>+20</b> Mỗi thành viên phe thắng còn ngồi</div></div><p class="note">Bình luận <code>tiên</code> hoặc <code>ma</code> để chọn phe; ngồi không giới hạn thời gian sau khi chọn phe; không có tự rời ghế. LIVE bắt đầu sẽ chờ 5 phút không có boss; sau đó boss xuất hiện và có thể đánh tối đa 5 phút. Boss biến mất khi hết giờ hoặc bị hạ, rồi bộ đếm lại chờ 5 phút mới ra boss tiếp theo. Chín boss thay phiên nhau vô hạn, mỗi boss 10.000 HP. Boss nổi giận ở 50% và 20% máu, cảnh báo 60 giây trước khi xuất hiện. Không có đặc quyền hoặc sát thương từ quà TikTok.</p></article>
+<article class="panel"><h2>⚔ Tiên Ma Đại Chiến · mỗi 30 phút</h2>
+<p class="note">Cứ 30 phút, mở 60 giây đua tim vào giai đoạn chờ boss. Tim được tính theo phe trong sự kiện, nhưng <b>không gây damage boss trong lúc chờ</b>. Phe thắng nhận +15 Tu Vi cho mỗi thành viên đang ngồi.</p>
+<div id="duelStatus" class="event-pulse">Sự kiện tiếp theo đang đếm ngược...</div>
+<div id="duelScores" class="duel-scores">Tiên Đạo 0 · Ma Đạo 0</div>
+</article>
+<article class="panel"><h2>📡 Kết nối TikTok LIVE</h2><label for="liveUsername">Tài khoản đang phát LIVE</label><input id="liveUsername" placeholder="@ten_tai_khoan" maxlength="160" autocomplete="off"/>
+<label for="roomId">Room ID (không bắt buộc)</label><input id="roomId" placeholder="Để trống nếu chưa có Room ID" maxlength="25"/>
+<label class="check"><input type="checkbox" id="autoReconnect" checked/>Tự kết nối lại khi mất mạng</label>
+<div class="buttons"><button id="connectLive" class="btn primary">Kết nối LIVE</button><button id="disconnectLive" class="btn secondary">Ngắt kết nối</button></div><p id="connectionStatus" class="muted">Chưa kết nối — có thể dùng Demo.</p><p id="combatStatus" class="note" role="status" aria-live="polite">Chưa nhận đòn đánh. Muốn gây damage: bình luận TIÊN/MA vào phe → đợi boss đang chiến đấu → thả tim (1 tim = 1 damage). Bình luận chỉ +2 Tu Vi.</p><details><summary>Chi tiết chẩn đoán</summary><pre id="diagnostic">Chưa có lỗi.</pre></details></article>
+<article class="panel"><h2>🛡 An toàn dữ liệu &amp; chẩn đoán LIVE</h2>
+<p class="note">Tự sao lưu dữ liệu khoảng 5 phút/lần, tối đa 10 bản, lưu tại thư mục dữ liệu của ứng dụng. Bản mới không xóa dữ liệu V2.1.8.</p>
+<p id="backupStatus" class="muted">Chưa đọc danh sách sao lưu.</p>
+<div class="buttons"><button id="backupNow" class="btn blue">💾 Sao lưu ngay</button><button id="restoreBackup" class="btn secondary">↺ Khôi phục bản gần nhất</button></div>
+<div id="liveHealth" class="diagnostic-grid">Kết nối: chế độ Demo · chưa có sự kiện.</div>
+<small class="muted">Ứng dụng không tự khẳng định LIVE còn hoạt động chỉ vì không thấy bình luận. Nhật ký ghi các sự kiện đã nhận trong Studio.</small>
+</article>
+<article class="panel"><h2>🧪 Thử tính năng không cần LIVE</h2><label for="demoName">Tên tu sĩ</label><input id="demoName" value="Minh An" maxlength="32"/>
+<div class="buttons"><button class="btn blue" id="demoTien">Gia nhập Tiên Đạo</button><button class="btn purple" id="demoMa">Gia nhập Ma Đạo</button></div>
+<label for="demoComment">Bình luận bất kỳ (+2 Tu Vi, không gây sát thương)</label><input id="demoComment" value="Cố lên Tiên Đạo!" maxlength="180"/><button id="demoChat" class="btn secondary">💬 Thử bình luận</button>
+<div class="buttons"><button id="demoLikes" class="btn secondary">❤ Thả 10 tim (+1 Tu Vi · 10 damage)</button><button id="demoFollow" class="btn secondary">★ Theo dõi +30</button></div><div class="buttons"><button id="demoShare" class="btn secondary">↗ Chia sẻ +20</button><button id="demoBreakthrough" class="btn gold">✦ Thử đột phá +60</button></div>
+<label for="demoBoss">Boss cần thử (9 loại)</label><select id="demoBoss"></select><p id="bossAssetsStatus" class="note">Đang kiểm tra ảnh của 9 boss V2.2.1...</p>
+<div class="buttons"><button id="startBoss" class="btn red">⚔ Thử xuất hiện boss ngay (Demo)</button><button id="demoCrowd" class="btn secondary">Thêm 30 tu sĩ</button></div>
+<div class="buttons"><button id="demoDuel" class="btn purple">⚔ Thử Tiên Ma Đại Chiến (Demo)</button><button id="demoBossPhase" class="btn red">🔥 Thử boss cuồng nộ 20% (Demo)</button></div>
+<button id="demoAscend" class="btn gold">⚡ Thử Thiên Kiếp: đủ điểm + phút (Demo)</button><button id="clearFormation" class="btn secondary">Dọn đội hình 60 người (giữ Tu Vi)</button><button id="resetAll" class="btn danger">Xóa dữ liệu Demo</button><p class="hint">Các nút thử boss/đột phá bị vô hiệu khi đang kết nối LIVE thật.</p></article>
+<article class="panel"><h2>📜 Nhiệm vụ hằng ngày · Tu sĩ</h2><label for="questPlayer">Chọn tu sĩ để xem nhiệm vụ</label><select id="questPlayer"><option value="">Chưa có tu sĩ</option></select><p id="playerSummary" class="player-summary">Người mới bắt đầu ở Phàm Nhân (0 tu vi, 0 phút tham chiến).</p><div id="dailyQuests" class="quest-list"></div><small class="muted">Thưởng tự động một lần/ngày theo giờ Việt Nam. Điểm nhiệm vụ cộng ngoài điểm tương tác.</small></article>
+<article class="panel"><h2>📈 Tiến độ đột phá của tu sĩ</h2>
+<p class="note">Điểm Tu Vi và phút tham gia là hai điều kiện độc lập. Mỗi tu sĩ có thanh tiến độ ngay bên nhân vật trên LIVE.</p>
+<div id="realmProgress" class="upgrade-progress">Chọn một tu sĩ để xem tiến độ.</div>
+</article>
+<article class="panel"><h2>🗡 Pháp Bảo · Trang Phục · Linh Thú</h2>
+<p class="note">Mở khóa theo cảnh giới. Chỉ thay đổi ngoại hình và hiệu ứng; không cộng sát thương tim hoặc bất kỳ ưu thế mua bằng tiền nào. Chọn tu sĩ tại mục Nhiệm vụ bên trên.</p>
+<div class="gear-selects">
+<label for="robeEquip">Đạo bào</label><select id="robeEquip"></select>
+<label for="artifactEquip">Pháp bảo</label><select id="artifactEquip"></select>
+<label for="petEquip">Linh thú đồng hành</label><select id="petEquip"></select>
+</div><button id="applyEquipment" class="btn gold">Trang bị cho tu sĩ</button>
+<p id="equipStatus" class="muted">Tính năng mở khóa khi đủ cảnh giới.</p>
+</article>
+<article class="panel"><h2>✦ Hệ thống 9 cảnh giới · Tu luyện</h2><p class="note">Điều kiện đột phá: đủ Tu Vi + đủ số phút hiện diện trong đội hình. Ví dụ Trúc Cơ cần 50 điểm và 5 phút. Điểm được giữ nguyên, không bị trừ khi thăng cấp.</p><div id="realmTable" class="realm-list"></div><small class="muted">Thăng cấp phải đồng thời đủ Tu Vi và đủ phút tham chiến trong đội hình. Thời gian được tính khi phần mềm đang chạy (không phải xác nhận người xem đang mở TikTok). Phàm Nhân không có hào quang.</small></article>
+<article class="panel"><h2>🏆 Bảng xếp hạng tu vi</h2><ol id="leaderboard" class="leaderboard"><li>Chưa có tu sĩ.</li></ol></article>
+<article class="panel"><h2>🏅 Bảng xếp hạng tuần · 4 hạng mục</h2>
+<p class="note">Làm mới vào thứ Hai theo giờ Việt Nam; lưu riêng thành tích tuần, không đặt lại tổng Tu Vi.</p>
+<div class="weekly-grid" id="weeklyRanking"></div>
+</article>
+<article class="panel audio-panel" id="voiceSettings"><h2>🎙 Giọng đọc riêng biệt</h2>
+<p class="note">Chọn giọng của Windows, hoặc nhập <b>model giọng AI Piper đã tải về</b> để đọc trực tiếp bình luận mới và thông báo bằng tiếng Việt. Hai nguồn có cùng hàng đợi đọc.</p>
+<label class="check"><input id="readChat" type="checkbox" checked/>Đọc bình luận LIVE và Demo</label>
+<label class="check"><input id="alertVoice" type="checkbox" checked/>Đọc boss, Thiên Kiếp và Đại Chiến</label>
+<label for="voiceSource">Nguồn giọng đọc</label>
+<select id="voiceSource"><option value="system">Giọng có sẵn / đã cài trong Windows</option><option value="piper">Giọng AI Piper tải từ bên ngoài (.onnx)</option></select>
+<div id="systemVoiceOptions" class="audio-subpanel"><label for="systemVoice">Chọn giọng đọc trong máy</label><select id="systemVoice"><option value="">Tự động chọn giọng tiếng Việt</option></select><button class="btn secondary" type="button" id="refreshVoices">↻ Quét lại giọng đã cài</button></div>
+<div id="piperVoiceOptions" class="audio-subpanel" hidden>
+<p class="note">Cần <b>piper.exe</b>, <b>model.onnx</b> và <b>model.onnx.json</b> đặt cùng chỗ với model. File MP3/WAV là âm thanh ghi sẵn, không tự đọc được bình luận mới.</p>
+<div class="buttons"><button class="btn blue" id="choosePiper">Chọn piper.exe</button><button class="btn blue" id="chooseVoiceModel">Chọn model giọng .onnx</button></div>
+<p id="piperEngineLabel" class="file-label">Chưa chọn chương trình Piper</p><p id="voiceModelLabel" class="file-label">Chưa chọn model giọng AI</p>
+</div>
+<label for="voiceVolume">Âm lượng giọng đọc: <output id="voiceVolumeValue">95%</output></label><input id="voiceVolume" type="range" min="0" max="100" value="95"/>
+<label for="voiceRate">Tốc độ đọc: <output id="voiceRateValue">1,00×</output></label><input id="voiceRate" type="range" min="70" max="140" step="5" value="95"/>
+<div class="buttons"><button id="testVoice" class="btn primary">▶ Thử giọng đọc</button><button id="stopVoice" class="btn secondary">■ Ngừng đọc</button></div>
+<p id="speechStatus" class="audio-status" role="status" aria-live="polite">Chưa phát giọng đọc. Bấm Thử giọng đọc để kiểm tra.</p>
+</article>
+<article class="panel audio-panel" id="musicSettings"><h2>♫ Nhạc nền riêng biệt</h2>
+<p class="note">Phát nhạc mặc định hoặc nhập file MP3/WAV/OGG/M4A/FLAC đã tải về từ máy. Nhạc lặp liên tục và có âm lượng riêng, không làm thay đổi giọng đọc.</p>
+<label class="check"><input id="playMusic" type="checkbox"/>Bật nhạc nền (lặp liên tục)</label>
+<p id="musicFileLabel" class="file-label">Đang chọn: Linh khí nguyên bản (mặc định)</p>
+<div class="buttons"><button id="chooseMusic" class="btn blue">📂 Nhập nhạc từ máy</button><button id="resetMusic" class="btn secondary">Dùng nhạc mặc định</button></div>
+<label for="musicVolume">Âm lượng nhạc nền: <output id="musicVolumeValue">25%</output></label><input id="musicVolume" type="range" min="0" max="100" value="25"/>
+<label class="check"><input id="duckMusic" type="checkbox" checked/>Tự giảm nhạc lúc giọng đọc phát, sau đó khôi phục</label>
+<div class="buttons"><button id="testMusic" class="btn primary">▶ Nghe thử nhạc</button><button id="pauseMusic" class="btn secondary">■ Tạm dừng nhạc</button></div>
+<p id="musicStatus" class="audio-status" role="status" aria-live="polite">Chưa bật nhạc.</p>
+<audio id="music" src="assets/audio/linh-khi-nguyen-ban.wav" preload="none" loop></audio>
+</article>
+<article class="panel"><h2>📺 Cửa sổ phát LIVE 9:16</h2><label for="visualStyle">Phong cách đồ họa (giữ cả hai bộ hình)</label><select id="visualStyle"><option value="cinematic">Bồng Lai tiên cảnh (ảnh bạn cung cấp) · boss riêng V2.2.1</option><option value="classic">Bộ hình V2.1 gốc</option></select><div class="buttons"><button id="openLiveOutput" class="btn primary">Mở màn hình LIVE</button><button id="closeLiveOutput" class="btn secondary">Đóng màn hình LIVE</button></div><p id="outputStatus" class="muted">Chưa mở cửa sổ LIVE.</p><small class="muted">OBS / TikTok LIVE Studio → Window Capture → “Nghịch Thiên Tu Luyện — LIVE 9:16”.</small></article>
+<article class="panel"><h2>📋 Nhật ký sự kiện</h2><ul id="activity" class="activity"><li>Sẵn sàng nghịch thiên tu luyện.</li></ul></article>
+</div></div></main></div>
+<script src="game-core.js"></script><script src="renderer.js"></script><script src="live-output-stream.js"></script><script src="live-output-source.js"></script></body></html>

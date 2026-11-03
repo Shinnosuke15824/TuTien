@@ -1,0 +1,28 @@
+
+# Thư viện Node.js
+node_modules/
+
+# File build Windows
+release/
+dist/
+out/
+*.exe
+*.zip
+
+# File nhật ký
+*.log
+npm-debug.log*
+
+# Thông tin riêng tư
+.env
+.env.*
+!.env.example
+*.pem
+*.key
+
+# Dữ liệu ứng dụng
+user-data/
+backups/
+
+# Model giọng AI tải ngoài
+*.onnx
